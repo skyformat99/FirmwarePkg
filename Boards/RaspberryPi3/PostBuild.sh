@@ -23,12 +23,12 @@ $WORKSPACE/FirmwarePkg/Scripts/Startup.sh $WORKSPACE/FirmwarePkg/Scripts/Raspber
 #
 # Generate final firmware image
 #
-
 if [ "$DOUBLE" == true ]; then
     dd if=/dev/zero of=$TMP_DIR/pad.bin bs=1024 count=160 conv=notrunc
     cat $TMP_DIR/startup.bin $UEFI_BIN_PI2 $TMP_DIR/pad.bin $UEFI_BIN_PI3 > $BUILD_ROOT/$BOOT_IMAGE
 else
-    cat $TMP_DIR/startup.bin $UEFI_BIN_PI2  > $BUILD_ROOT/$BOOT_IMAGE
+    dd if=/dev/zero of=$TMP_DIR/pad.bin bs=1024 count=1024 conv=notrunc
+    cat $TMP_DIR/startup.bin $TMP_DIR/pad.bin $UEFI_BIN_PI3  > $BUILD_ROOT/$BOOT_IMAGE
 fi
 echo -e "\nDone Composing combined $BOOT_IMAGE\n"
 
